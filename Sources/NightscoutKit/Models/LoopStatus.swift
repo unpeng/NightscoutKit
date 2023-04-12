@@ -28,7 +28,9 @@ public struct LoopStatus {
     public let forecastError: ForecastError?
     public let testingDetails: [String: Any]?
 
-    public init(name: String, version: String, timestamp: Date, iob: IOBStatus? = nil, cob: COBStatus? = nil, predicted: PredictedBG? = nil, automaticDoseRecommendation: AutomaticDoseRecommendation? = nil, recommendedBolus: Double? = nil, enacted: LoopEnacted? = nil, rileylinks: [RileyLinkStatus]? = nil, failureReason: String? = nil, currentCorrectionRange: CorrectionRange? = nil, forecastError: ForecastError? = nil, testingDetails: [String: Any]? = nil) {
+    public let automaticDosingStrategy: String?
+    
+    public init(name: String, version: String, timestamp: Date, iob: IOBStatus? = nil, cob: COBStatus? = nil, predicted: PredictedBG? = nil, automaticDoseRecommendation: AutomaticDoseRecommendation? = nil, recommendedBolus: Double? = nil, enacted: LoopEnacted? = nil, rileylinks: [RileyLinkStatus]? = nil, failureReason: String? = nil, currentCorrectionRange: CorrectionRange? = nil, forecastError: ForecastError? = nil, testingDetails: [String: Any]? = nil, automaticDosingStrategy: String? = nil) {
         self.name = name
         self.version = version
         self.timestamp = timestamp
@@ -43,6 +45,7 @@ public struct LoopStatus {
         self.currentCorrectionRange = currentCorrectionRange
         self.forecastError = forecastError
         self.testingDetails = testingDetails
+        self.automaticDosingStrategy = automaticDosingStrategy
     }
     
     public var dictionaryRepresentation: [String: Any] {
@@ -78,6 +81,10 @@ public struct LoopStatus {
         
         if let failureReason = failureReason {
             rval["failureReason"] = failureReason
+        }
+        
+        if let automaticDosingStrategy = automaticDosingStrategy {
+            rval["automaticDosingStrategy"] = automaticDosingStrategy
         }
 
         if let rileylinks = rileylinks {
@@ -153,6 +160,8 @@ public struct LoopStatus {
 
         failureReason = rawValue["failureReason"] as? String
 
+        automaticDosingStrategy = rawValue["automaticDosingStrategy"] as? String
+        
         if let currentCorrectionRangeRaw = rawValue["currentCorrectionRange"] as? CorrectionRange.RawValue {
             currentCorrectionRange = CorrectionRange(rawValue: currentCorrectionRangeRaw)
         } else {
