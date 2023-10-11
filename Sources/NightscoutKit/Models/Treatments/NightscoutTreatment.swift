@@ -21,9 +21,9 @@ public enum TreatmentType: String {
     case temporaryOverride = "Temporary Override"
     case mealBolus = "Meal Bolus"
     case bloodGlucoseCheck = "BG Check"
-    case suspendPump = "Suspend Pump"
-    case resumePump = "Resume Pump"
     case note = "Note"
+    case sensorStart = "Sensor Start"
+    case siteChange = "Site Change"
 
     public var classType: NightscoutTreatment.Type {
         switch self {
@@ -39,12 +39,10 @@ public enum TreatmentType: String {
             return MealBolusNightscoutTreatment.self
         case .bloodGlucoseCheck:
             return BGCheckNightscoutTreatment.self
-        case .suspendPump:
-            return PumpSuspendTreatment.self
-        case .resumePump:
-            return PumpResumeTreatment.self
         case .note:
             return NoteNightscoutTreatment.self
+        default:
+            return NightscoutTreatment.self
         }
     }
 }
